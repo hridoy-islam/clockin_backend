@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const companySchema = mongoose.Schema({
+const serviceSchema = mongoose.Schema({
     serviceDate: String,
     serviceTimeStart: String,
     serviceTimeEnd: String,
@@ -13,12 +13,16 @@ const companySchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Worker',
     },
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Company',
+    },
     taskList: Object,
     workerLogin: String,
     workerLogout: String,
     comment: String,
 }, { timestamps: true });
 
-const Company = mongoose.model("Company", companySchema);
+const Service = mongoose.model("Service", serviceSchema);
 
-module.exports = Company;
+module.exports = Service;

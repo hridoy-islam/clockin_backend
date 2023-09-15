@@ -1,5 +1,4 @@
 const {faker} = require('@faker-js/faker')
-
 // Index - Show All Data.
 const index = async (req, res) => {
 
@@ -18,23 +17,26 @@ const update = async (req, res) => { }
 // remove 
 const remove = async (req, res) => { }
 
+
 const fakeData = async(req, res)=> {
 
     let data = [];
 
     for (let index = 0; index < 10; index++) {
         const name = faker.person.fullName();
-        const location = faker.location.streetAddress({ useFullAddress: true });
-        const latitude = faker.location.latitude();
-        const longitude = faker.location.longitude();
+        const phone = faker.phone.number();
+        const password = faker.internet.password();
         const company = faker.string.uuid();
+        const holidays = faker.helpers.rangeToNumber({ min: 20, max: 30 })
+        const verified = faker.datatype.boolean();
 
         const generatedData = {
             name,
-            location,
-            latitude,
-            latitude,
+            phone,
+            password,
             company,
+            holidays,
+            verified
         }
 
         data.push(generatedData)

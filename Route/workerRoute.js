@@ -1,5 +1,5 @@
 const express = require('express');
-const { index, single, store, update, remove } = require('../Controller/authController');
+const { index, single, store, update, remove, fakeData } = require('../Controller/workerController');
 const router = express.Router()
 
 
@@ -9,5 +9,7 @@ router.get('/:id', single);
 router.post('/', store);
 router.put('/:id', update);
 router.delete('/:id', remove);
+
+router.get('/fake/data', fakeData);
 
 module.exports = router
