@@ -1,13 +1,19 @@
 const {faker} = require('@faker-js/faker')
-
+const Customer = require("../Model/customerModel");
 // Index - Show All Data.
 const index = async (req, res) => {
-
+    Customer.find((err, people) => {
+        if (err) return res.status(500).send(err)
+        return res.status(200).send(people);
+    });
 }
 
 // single 
 const single = async (req, res) => {
-
+    Customer.findById(req.params.id, (err, people) => {
+        if (err) return res.status(500).send(err)
+        return res.status(200).send(people);
+    });
 }
 
 // Store New 
