@@ -1,56 +1,67 @@
 const {faker} = require('@faker-js/faker')
 const TaskList = require("../Model/taskListModel");
+const mongoose = require('mongoose')
 // Index - Show All Data.
 const index = async (req, res) => {
-    TaskList.find((err, tasks) => {
-        if (err) return res.status(500).send(err)
-        return res.status(200).send(people);
-    });
+    try {
+        return res.status(200).send({data:await TaskList.find({softDelete:false})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
 }
 
 // single 
 const single = async (req, res) => {
-    TaskList.findById(req.params.id, (err, task) => {
-        if (err) return res.status(500).send(err)
-        return res.status(200).send(task);
-    });
+    try {
+        return res.status(200).send({ data : await TaskList.findById({_id:req.params._id})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
 }
 
 // Store New 
 const store = async (req, res) => { 
-    const newTaskList = new TaskList(req.body);
-    newTaskList.save(err => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).send(newTaskList);
-    });
+    try { 
+        const taskList = await TaskList.findOne({taskName: req.body.taskName});
+        if(taskList) return res.status(409).send({ message:'Company already exists'});
+        return res.status(200).send({ data:await TaskList.create(req.body)})
+    } 
+    catch (error) {  
+        return res.status(400).send({ error: error.message}) 
+    }
 }
 
 // update 
 const update = async (req, res) => { 
-    TaskList.findByIdAndUpdate(
-        // the id of the item to find
-        req.params.id,
-        
-        // the change to be made. Mongoose will smartly combine your existing 
-        // document with this change, which allows for partial updates too
-        req.body,
-        
-        // an option that asks mongoose to return the updated version 
-        // of the document instead of the pre-updated one.
-        {new: true},
-        
-        // the callback function
-        (err, task) => {
-        // Handle any possible database errors
-            if (err) return res.status(500).send(err);
-            return res.send(task);
-        }
-    )
+    try {
+        const taskList = await TaskList.findById({_id:req.params._id});
 
+        if(taskList._id.toString() !== req.params._id ) return res.status(409).send({ message:'Task list already exists'});
+    
+        const updateTaskList = await TaskList.findByIdAndUpdate(
+            taskList._id,
+            req.body,
+            {new: true}
+        )
+        return res.status(200).send({ data:updateTaskList})
+    } catch (error) {
+        return res.status(400).send({ error: error.message}) 
+    }
 }
 // remove 
-const remove = async (req, res) => { }
-
+const remove = async (req, res) => { 
+    try {
+        const _id = new mongoose.Types.ObjectId(req.params._id);
+        const updateTaskList = await TaskList.findByIdAndUpdate(
+            _id,
+            {softDelete:true},
+            {new: true}
+        )
+        return res.status(200).send({ data:updateTaskList})
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
+}
 
 const fakeData = async(req, res)=> {
 
@@ -76,5 +87,13 @@ const fakeData = async(req, res)=> {
     })
 }
 
+const archiveList = async (req, res) => {
+    try {
+        return res.status(200).send({data:await TaskList.find({softDelete:true})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
+}
 
-module.exports = { index, single, store, update, remove, fakeData };
+
+module.exports = { index, single, store, update, remove, fakeData, archiveList };

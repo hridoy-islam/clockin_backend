@@ -54,7 +54,6 @@ const remove = async (req, res) => {
             {softDelete:true},
             {new: true}
         )
-        console.log(updateCompany, _id);
         return res.status(200).send({ data:updateCompany})
     } catch (error) {
         return res.status(400).send({ error: error.message})
