@@ -2,54 +2,71 @@ const { faker } = require('@faker-js/faker');
 const Company = require("../Model/companyModel");
 // Index - Show All Data.
 const index = async (req, res) => {
-    Company.find((err, people) => {
-        if (err) return res.status(500).send(err)
-        return res.status(200).send(people);
-    });
+
+    try {
+        return res.status(200).send({data:await Company.find()});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
 }
 
 // single 
 const single = async (req, res) => {
-    Company.findById(req.params.id, (err, company) => {
-        if (err) return res.status(500).send(err)
-        return res.status(200).send(company);
-    });
+    try {
+        return res.status(200).send({ data : await Company.findById({_id:req.params._id})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
 }
 
 // Store New 
 const store = async (req, res) => {
-    const newCompany = new Company(req.body);
-    newCompany.save(err => {
-        if (err) return res.status(500).send(err);
-        return res.status(200).send(newCompany);
-    });
+    try { 
+        const company = await Company.findOne({ $or: [
+            { email:req.body.email }, 
+            { phone: req.body.phone }
+        ] });
+
+        if(company) return res.status(409).send({ message:'Company already exists'})
+        return res.status(200).send({ data:await Company.create(req.body)})
+    } 
+    catch (error) {  
+        return res.status(400).send({ error: error.message}) 
+    }
 }
 
 // update 
-const update = async (req, res) => { 
-    Todo.findByIdAndUpdate(
-        // the id of the item to find
-        req.params.id,
-        
-        // the change to be made. Mongoose will smartly combine your existing 
-        // document with this change, which allows for partial updates too
-        req.body,
-        
-        // an option that asks mongoose to return the updated version 
-        // of the document instead of the pre-updated one.
-        {new: true},
-        
-        // the callback function
-        (err, company) => {
-        // Handle any possible database errors
-            if (err) return res.status(500).send(err);
-            return res.send(company);
-        }
-    )
+const update = async (req, res) => {
 
-}
+    try {
+        const company = await Company.findOne({ $or: [
+            { email:req.body.email }, 
+            { phone: req.body.phone }
+        ] });
+
+        if(company._id.toString() !== req.params._id ) return res.status(409).send({ message:'Company already exists'});
+    
+        const updateCompany = await Company.findByIdAndUpdate(
+            company._id,
+            req.body,
+            {new: true}
+        )
+        return res.status(200).send({ data:updateCompany})
+    } catch (error) {
+        return res.status(400).send({ error: error.message}) 
+    }
+
+};
+
 // remove 
-const remove = async (req, res) => { }
+const remove = async (req, res) => {
+    try {
+        const deleteCompany = await Company.findByIdAndDelete({_id: req.params._id});
+        return res.status(200).send({ data:deleteCompany})
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
+ }
 
 const fakeData = async (req, res) => {
     let data = [];

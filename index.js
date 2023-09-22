@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const connectDB = require('./common/mongoose');
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoose = require("mongoose");
@@ -26,6 +27,7 @@ app.use('/customer', customerRoute);
 app.use('/worker', workerRoute);
 app.use('/tasklist', taskListRoute);
 app.use('/service', serviceRoute);
+connectDB()
 
 
 app.get('/', (req, res) => {
