@@ -22,10 +22,12 @@ const single = async (req, res) => {
 // Store New 
 const store = async (req, res) => {
     try { 
-        const company = await Company.findOne({ $or: [
+        const company = await Company.findOne({ 
+            $or: [
             { email:req.body.email }, 
             { phone: req.body.phone }
-        ] });
+        ] 
+    });
 
         if(company) return res.status(409).send({ message:'Company already exists'})
         return res.status(200).send({ data:await Company.create(req.body)})
