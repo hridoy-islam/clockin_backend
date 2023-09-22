@@ -1,13 +1,5 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
-
-// giftcard_type: {
-//     type: String,
-//     enum: ["W", "A"], // Web = W, A= Admin
-//     required: true,
-//     default: "W",
-// },
-
 const CompanySchema = new Schema({
     name: { type: String, required: true},
     email:{ type: String, required: true},
@@ -22,14 +14,10 @@ const CompanySchema = new Schema({
     contactName: { type: String},
     contactPhone: { type: String},
     verified: { type: Boolean, default:false},
+    softDelete: { type: Boolean, default:false}
 },
-{
-    timestamps: {
-        createdAt: 'created_at',
-        updatedAt: 'updated_at'
-      },
-    strict: true,
-})
+{ timestamps: true }
+)
 
 
 const Company = mongoose.model("Company", CompanySchema);

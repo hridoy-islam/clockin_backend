@@ -1,10 +1,11 @@
 const { faker } = require('@faker-js/faker');
 const Company = require("../Model/companyModel");
+const mongoose = require('mongoose')
 // Index - Show All Data.
 const index = async (req, res) => {
 
     try {
-        return res.status(200).send({data:await Company.find()});
+        return res.status(200).send({data:await Company.find({softDelete:false})});
     } catch (error) {
         return res.status(400).send({ error: error.message})
     }
@@ -63,8 +64,13 @@ const update = async (req, res) => {
 // remove 
 const remove = async (req, res) => {
     try {
-        const deleteCompany = await Company.findByIdAndDelete({_id: req.params._id});
-        return res.status(200).send({ data:deleteCompany})
+        const _id = new mongoose.Types.ObjectId(req.params._id);
+        const updateCompany = await Company.findByIdAndUpdate(
+            _id,
+            {softDelete:true},
+            {new: true}
+        )
+        return res.status(200).send({ data:updateCompany})
     } catch (error) {
         return res.status(400).send({ error: error.message})
     }
