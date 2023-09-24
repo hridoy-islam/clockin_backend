@@ -302,14 +302,14 @@
         "/worker": {
             "post": {
                 "tags": [
-                    "Worker"
+                    "Workers"
                 ],
                 "description": "Create a Worker",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Worker"
+                                "$ref": "#/components/schemas/Workers"
                             }
                         }
                     }
@@ -318,7 +318,7 @@
             },
             "get": {
                 "tags": [
-                    "Worker"
+                    "Workers"
                 ],
                 "description": "Get Worker",
                 "responses": {}
@@ -327,7 +327,7 @@
         "/worker/archives": {
             "get": {
                 "tags": [
-                    "Worker"
+                    "Workers"
                 ],
                 "description": "Get archive of Worker",
                 "responses": {}
@@ -337,7 +337,7 @@
             "get": {
                 "description": "Worker details",
                 "tags": [
-                    "Worker"
+                    "Workers"
                 ],
                 "responses": {},
                 "parameters": [
@@ -350,14 +350,14 @@
             },
             "put": {
                 "tags": [
-                    "Worker"
+                    "Workers"
                 ],
                 "responses": {},
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Worker"
+                                "$ref": "#/components/schemas/Workers"
                             }
                         }
                     }
@@ -373,8 +373,139 @@
             "delete": {
                 "description": "Delete a Worker",
                 "tags": [
-                    "Worker"
+                    "Workers"
                 ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/service": {
+            "post": {
+                "tags": [
+                    "Services"
+                ],
+                "description": "Create a Service schedule",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Services"
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            },
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "description": "Get Service list",
+                "responses": {}
+            }
+        },
+        "/service/{_id}": {
+            "get": {
+                "description": "Service details",
+                "tags": [
+                    "Services"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Services"
+                ],
+                "responses": {},
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Services"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "delete": {
+                "description": "Delete a Service",
+                "tags": [
+                    "Services"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/service/start/{_id}": {
+            "patch": {
+                "tags": [
+                    "Services"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/service/end/{_id}": {
+            "patch": {
+                "tags": [
+                    "Services"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/service/comment/{_id}": {
+            "patch": {
+                "tags": [
+                    "Services"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ServiceComment"
+                            }
+                        }
+                    }
+                },
                 "responses": {},
                 "parameters": [
                     {
@@ -545,7 +676,7 @@
                     }
                 }
             },
-            "Worker": {
+            "Workers": {
                 "type": "object",
                 "properties": {
                     "name": {
@@ -570,6 +701,77 @@
                     "holidays": {
                         "type": "number",
                         "example": 10
+                    }
+                }
+            },
+            "Services": {
+                "type": "object",
+                "properties": {
+                    "serviceName": {
+                        "type": "string",
+                        "example": "Service A",
+                        "required": true
+                    },
+                    "serviceDate": {
+                        "type": "string",
+                        "example": "12/31/2022",
+                        "format": "mm/dd/yyyy",
+                        "required": true
+                    },
+                    "serviceTimeStart": {
+                        "type": "string",
+                        "example": "08:00 AM",
+                        "required": true
+                    },
+                    "serviceTimeEnd": {
+                        "type": "string",
+                        "example": "09:00 AM",
+                        "required": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "active",
+                        "required": true
+                    },
+                    "customer": {
+                        "type": "string",
+                        "example": "608cb0f4a9d36f001f7dbd33"
+                    },
+                    "worker": {
+                        "type": "string",
+                        "example": "608cb0f4a9d36f001f7dbd34"
+                    },
+                    "company": {
+                        "type": "string",
+                        "example": "608cb0f4a9d36f001f7dbd35"
+                    },
+                    "taskList": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "taskName": {
+                                    "type": "string",
+                                    "example": "Task A",
+                                    "required": true
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "pending",
+                                    "required": true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ServiceComment": {
+                "type": "object",
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                        "example": "This is a service comments",
+                        "required": true
                     }
                 }
             }

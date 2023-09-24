@@ -49,8 +49,6 @@ const update = async (req, res) => {
 const remove = async (req, res) => { 
     try {
         const _id = new mongoose.Types.ObjectId(req.params._id);
-        console.log(_id);
-
         const updateCompany = await Customer.findByIdAndUpdate(
             _id,
             {softDelete:true},
