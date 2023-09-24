@@ -1,21 +1,68 @@
 const {faker} = require('@faker-js/faker')
+const Worker = require("../Model/workerModel");
+const mongoose = require('mongoose')
+
 // Index - Show All Data.
 const index = async (req, res) => {
-
+    try {
+        return res.status(200).send({data:await Worker.find({softDelete:false})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
 }
 
 // single 
 const single = async (req, res) => {
-
+    try {
+        return res.status(200).send({ data : await Worker.findById({_id:req.params._id})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
 }
 
 // Store New 
-const store = async (req, res) => { }
+const store = async (req, res) => { 
+    try { 
+        const worker = await Worker.findOne({ phone: req.body.phone });
+        if(worker) return res.status(409).send({ message:'Team mate already exists'})
+        return res.status(200).send({ data:await Worker.create(req.body)})
+    } 
+    catch (error) {  
+        return res.status(400).send({ error: error.message}) 
+    }
+}
 
 // update 
-const update = async (req, res) => { }
+const update = async (req, res) => {
+    try {
+        const worker = await Worker.findOne({ phone: req.body.phone });
+
+        if(worker._id.toString() !== req.params._id ) return res.status(409).send({ message:'Team mate already exists'});
+    
+        const updateWorker = await Worker.findByIdAndUpdate(
+            worker._id,
+            req.body,
+            {new: true}
+        )
+        return res.status(200).send({ data:updateWorker})
+    } catch (error) {
+        return res.status(400).send({ error: error.message}) 
+    }
+ }
 // remove 
-const remove = async (req, res) => { }
+const remove = async (req, res) => {
+    try {
+        const _id = new mongoose.Types.ObjectId(req.params._id);
+        const updateWorker = await Worker.findByIdAndUpdate(
+            _id,
+            {softDelete:true},
+            {new: true}
+        )
+        return res.status(200).send({ data:updateWorker})
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
+ }
 
 
 const fakeData = async(req, res)=> {
@@ -47,6 +94,5 @@ const fakeData = async(req, res)=> {
         data,
     })
 }
-
 
 module.exports = { index, single, store, update, remove, fakeData };

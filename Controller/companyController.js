@@ -1,6 +1,7 @@
 const { faker } = require('@faker-js/faker');
 const Company = require("../Model/companyModel");
 const mongoose = require('mongoose')
+
 // Index - Show All Data.
 const index = async (req, res) => {
 
