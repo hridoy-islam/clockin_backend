@@ -1,12 +1,12 @@
 const express = require('express');
-const { index, single, store, update, remove, fakeData, archiveList } = require('../Controller/taskListController');
+const { index, single, store, update, remove, fakeData, archives } = require('../Controller/taskListController');
 const router = express.Router()
-const {createTaskListValidator, updateTaskListValidator} = require('../validation/taskList')
+const {createTaskListValidator, updateTaskListValidator} = require('../validation/taskListValidation')
 
 
 // Service User
 router.get('/', index);
-router.get('/archivelist', archiveList);
+router.get('/archives', archives);
 router.get('/:_id', single);
 router.post('/',createTaskListValidator, store);
 router.put('/:_id',updateTaskListValidator, update);

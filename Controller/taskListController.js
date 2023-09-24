@@ -23,7 +23,7 @@ const single = async (req, res) => {
 const store = async (req, res) => { 
     try { 
         const taskList = await TaskList.findOne({taskName: req.body.taskName});
-        if(taskList) return res.status(409).send({ message:'Company already exists'});
+        if(taskList) return res.status(409).send({ message:'Task name already exists'});
         return res.status(200).send({ data:await TaskList.create(req.body)})
     } 
     catch (error) {  
@@ -48,6 +48,7 @@ const update = async (req, res) => {
         return res.status(400).send({ error: error.message}) 
     }
 }
+
 // remove 
 const remove = async (req, res) => { 
     try {
@@ -87,7 +88,7 @@ const fakeData = async(req, res)=> {
     })
 }
 
-const archiveList = async (req, res) => {
+const archives = async (req, res) => {
     try {
         return res.status(200).send({data:await TaskList.find({softDelete:true})});
     } catch (error) {
@@ -96,4 +97,4 @@ const archiveList = async (req, res) => {
 }
 
 
-module.exports = { index, single, store, update, remove, fakeData, archiveList };
+module.exports = { index, single, store, update, remove, fakeData, archives };

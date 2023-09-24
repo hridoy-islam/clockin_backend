@@ -9,12 +9,13 @@ const CompanySchema = new Schema({
         type: String,
         enum: ["admin", "company","worker"],
         default: "company",
+        required: true
     },
     address: { type: String},
     contactName: { type: String},
     contactPhone: { type: String},
-    verified: { type: Boolean, default:false},
-    softDelete: { type: Boolean, default:false}
+    verified: { type: Boolean, default:false, required: true},
+    softDelete: { type: Boolean, default:false, required: true}
 },
 { timestamps: true }
 )

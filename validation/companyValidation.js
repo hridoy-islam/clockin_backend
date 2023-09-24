@@ -8,13 +8,13 @@ const companySchema = Joi.object({
   phone: Joi.string().required(),
   address: Joi.string(),
   contactName: Joi.string(),
-  contactPhone: Joi.string(),
-  verified: Joi.boolean().default(false)
+  contactPhone: Joi.string()
 });
-
 
 const companyValidator = validationHandler({
   body: companySchema,
 });
 
-module.exports = companyValidator;
+module.exports = {
+  companyValidator
+};

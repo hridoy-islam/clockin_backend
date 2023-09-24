@@ -64,6 +64,14 @@ const remove = async (req, res) => {
     }
  }
 
+const archives = async (req, res) => {
+try {
+    return res.status(200).send({data:await Worker.find({softDelete:true})});
+} catch (error) {
+    return res.status(400).send({ error: error.message})
+}
+}
+
 
 const fakeData = async(req, res)=> {
 
@@ -95,4 +103,4 @@ const fakeData = async(req, res)=> {
     })
 }
 
-module.exports = { index, single, store, update, remove, fakeData };
+module.exports = { index, single, store, update, remove, fakeData, archives };

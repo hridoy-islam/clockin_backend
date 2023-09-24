@@ -6,9 +6,9 @@ const workerSchema = new Schema({
     phone: { type: String, required: true, unique:true},
     password: { type: String, required: true},
     otp: { type: String, default:null},
-    holidays: { type: Number, default:0},
-    verified: { type: Boolean, default:false},
-    softDelete: { type: Boolean, default:false}
+    holidays: { type: Number, default:0, required: true},
+    verified: { type: Boolean, default:false, required: true},
+    softDelete: { type: Boolean, default:false, required: true}
 }, 
 { timestamps: true }
 );

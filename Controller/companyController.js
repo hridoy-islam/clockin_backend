@@ -43,15 +43,20 @@ const store = async (req, res) => {
 const update = async (req, res) => {
 
     try {
-        const company = await Company.findOne({ $or: [
-            { email:req.body.email }, 
-            { phone: req.body.phone }
-        ] });
+        const company = await Company.findOne(
+            {
+                $or: [
+                    { email:req.body.email }, 
+                    { phone: req.body.phone }
+                ]
+            },
+            {softDelete:false}
+        );
 
-        if(company._id.toString() !== req.params._id ) return res.status(409).send({ message:'Company already exists'});
+        if(company?._id.toString() !== req.params?._id ) return res.status(409).send({ message:'Company already exists'});
     
         const updateCompany = await Company.findByIdAndUpdate(
-            company._id,
+            company?._id,
             req.body,
             {new: true}
         )
@@ -76,6 +81,15 @@ const remove = async (req, res) => {
         return res.status(400).send({ error: error.message})
     }
  }
+
+ const archives = async (req, res) => {
+
+    try {
+        return res.status(200).send({data:await Company.find({softDelete:true})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
+}
 
 const fakeData = async (req, res) => {
     let data = [];
@@ -105,4 +119,4 @@ const fakeData = async (req, res) => {
     })
 }
 
-module.exports = { index, single, store, update, remove, fakeData };
+module.exports = { index, single, store, update, remove, fakeData, archives };

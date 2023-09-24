@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const connectDB = require('./common/mongoose');
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoose = require("mongoose");
@@ -33,6 +35,7 @@ connectDB()
 app.get('/', (req, res) => {
     res.send('Hello Clock IN APP!')
 })
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 const server = app.listen(port, () => {
     console.log(`Server is running: ${port}`);

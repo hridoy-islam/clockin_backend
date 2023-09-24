@@ -22,6 +22,8 @@ const single = async (req, res) => {
 // Store New 
 const store = async (req, res) => { 
     try { 
+        const customer = await Customer.findOne({phone:req.body.phone});
+        if(customer) return res.status(409).send({ message:'Customer already exists'})
         return res.status(200).send({ data:await Customer.create(req.body)})
     } 
     catch (error) {  
@@ -60,6 +62,15 @@ const remove = async (req, res) => {
     }
 }
 
+const archives = async (req, res) => {
+
+    try {
+        return res.status(200).send({data:await Customer.find({softDelete:true})});
+    } catch (error) {
+        return res.status(400).send({ error: error.message})
+    }
+}
+
 const fakeData = async(req, res)=> {
 
     let data = [];
@@ -89,4 +100,4 @@ const fakeData = async(req, res)=> {
 }
 
 
-module.exports = { index, single, store, update, remove, fakeData };
+module.exports = { index, single, store, update, remove, fakeData, archives };

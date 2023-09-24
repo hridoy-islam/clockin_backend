@@ -1,0 +1,588 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Backend api",
+        "description": "Write description here",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "mdtajalislam1189@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.11"
+    },
+    "externalDocs": {
+        "description": "Find out more about how Swagger document is ?",
+        "url": "http://swagger.io"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000/"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auths"
+                ],
+                "description": "Email/phone number is required from two",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Auths"
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            }
+        },
+        "/company": {
+            "post": {
+                "tags": [
+                    "Companies"
+                ],
+                "description": "Create a company",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Companies"
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            },
+            "get": {
+                "tags": [
+                    "Companies"
+                ],
+                "description": "Get companies",
+                "responses": {}
+            }
+        },
+        "/company/archives": {
+            "get": {
+                "tags": [
+                    "Companies"
+                ],
+                "description": "Get archive list of companies",
+                "responses": {}
+            }
+        },
+        "/company/{_id}": {
+            "get": {
+                "description": "Company details",
+                "tags": [
+                    "Companies"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Companies"
+                ],
+                "responses": {},
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Companies"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "delete": {
+                "description": "Delete a compnay",
+                "tags": [
+                    "Companies"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/customer": {
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "description": "Create a Customers",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Customers"
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            },
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "description": "Get Customers",
+                "responses": {}
+            }
+        },
+        "/customer/archives": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "description": "Get archive list of Customers",
+                "responses": {}
+            }
+        },
+        "/customer/{_id}": {
+            "get": {
+                "description": "Customer details",
+                "tags": [
+                    "Customers"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Customers"
+                ],
+                "responses": {},
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerUpdate"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "delete": {
+                "description": "Delete a Customer",
+                "tags": [
+                    "Customers"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/tasklist": {
+            "post": {
+                "tags": [
+                    "TaskList"
+                ],
+                "description": "Create a TaskList",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskList"
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            },
+            "get": {
+                "tags": [
+                    "TaskList"
+                ],
+                "description": "Get TaskList",
+                "responses": {}
+            }
+        },
+        "/tasklist/archives": {
+            "get": {
+                "tags": [
+                    "TaskList"
+                ],
+                "description": "Get archive of tasklist",
+                "responses": {}
+            }
+        },
+        "/tasklist/{_id}": {
+            "get": {
+                "description": "Tasklist details",
+                "tags": [
+                    "TaskList"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "TaskList"
+                ],
+                "responses": {},
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTaskList"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "delete": {
+                "description": "Delete a tasklist",
+                "tags": [
+                    "TaskList"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/worker": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "description": "Create a Worker",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Worker"
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            },
+            "get": {
+                "tags": [
+                    "Worker"
+                ],
+                "description": "Get Worker",
+                "responses": {}
+            }
+        },
+        "/worker/archives": {
+            "get": {
+                "tags": [
+                    "Worker"
+                ],
+                "description": "Get archive of Worker",
+                "responses": {}
+            }
+        },
+        "/worker/{_id}": {
+            "get": {
+                "description": "Worker details",
+                "tags": [
+                    "Worker"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "responses": {},
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Worker"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            },
+            "delete": {
+                "description": "Delete a Worker",
+                "tags": [
+                    "Worker"
+                ],
+                "responses": {},
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Auths": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "sample@example.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "123-456-7890"
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true,
+                        "example": "password123"
+                    }
+                }
+            },
+            "Companies": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "required": true,
+                        "example": "Example Company"
+                    },
+                    "email": {
+                        "type": "string",
+                        "required": true,
+                        "example": "sample@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true,
+                        "example": "password123"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "required": true,
+                        "example": "123-456-7890"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "Dhaka"
+                    },
+                    "contactName": {
+                        "type": "string",
+                        "example": "Md Tajal Islam"
+                    },
+                    "contactPhone": {
+                        "type": "string",
+                        "example": "123-456-7890"
+                    }
+                }
+            },
+            "Customers": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe",
+                        "required": true
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "123 Main St"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "example": 40.7128
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "example": -74.0060
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "1234567890",
+                        "required": true
+                    },
+                    "company": {
+                        "type": "string",
+                        "required": true,
+                        "example": "608cb0f4a9d36f001f7dbd33",
+                        "pattern": "^[0-9a-fA-F]{24}$"
+                    }
+                }
+            },
+            "CustomerUpdate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe",
+                        "required": true
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "123 Main St"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "example": 40.7128
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "example": -74.0060
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "1234567890",
+                        "required": true
+                    }
+                }
+            },
+            "TaskList": {
+                "type": "object",
+                "properties": {
+                    "taskName": {
+                        "type": "string",
+                        "example": "Task A",
+                        "required": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "completed"
+                        ],
+                        "example": "pending"
+                    },
+                    "company": {
+                        "type": "string",
+                        "pattern": "^[0-9a-fA-F]{24}$",
+                        "required": true,
+                        "example": "608cb0f4a9d36f001f7dbd33"
+                    }
+                }
+            },
+            "UpdateTaskList": {
+                "type": "object",
+                "properties": {
+                    "taskName": {
+                        "type": "string",
+                        "example": "Task A",
+                        "required": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "completed"
+                        ],
+                        "example": "pending"
+                    }
+                }
+            },
+            "Worker": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe",
+                        "required": true
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "1234567890",
+                        "required": true
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "mySecurePassword",
+                        "required": true
+                    },
+                    "otp": {
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "holidays": {
+                        "type": "number",
+                        "example": 10
+                    }
+                }
+            }
+        },
+        "requestBodies": {},
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "name": "Authorization",
+                "scheme": "bearer",
+                "in": "header",
+                "description": "JWT Authorization header"
+            }
+        }
+    }
+}

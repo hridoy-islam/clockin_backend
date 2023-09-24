@@ -6,29 +6,14 @@ const createWorker = Joi.object({
     phone: Joi.string().required(),
     password: Joi.string().required(),
     otp: Joi.string(),
-    holidays: Joi.number(),
-    verified: Joi.boolean()
-});
-
-const updateWorker = Joi.object({
-    name: Joi.string().required(),
-    phone: Joi.string().required(),
-    password: Joi.string().required(),
-    otp: Joi.string(),
-    holidays: Joi.number(),
-    verified: Joi.boolean()
+    holidays: Joi.number()
 });
 
 const createWorkerValidator = validationHandler({
     body: createWorker,
 });
 
-const updateWorkerValidator = validationHandler({
-    body: updateWorker,
-});
-
 
 module.exports = {
-    createWorkerValidator,
-    updateWorkerValidator
+    createWorkerValidator
 };
