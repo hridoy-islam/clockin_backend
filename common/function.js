@@ -14,7 +14,7 @@ let pageNumber = 1, pageSize = 10;
 const {page, limit} = reqQuery;
 if (page && Number(page) > 1) pageNumber = Number(page);
 if (limit && Number(limit) > 0) pageSize = Number(limit);
-delete query.sort_by
+
 const resData = await Company.find(query, options).select(select).skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
 const total_count = await Company.find().count();
 

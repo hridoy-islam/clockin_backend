@@ -28,6 +28,7 @@ const serviceSchema = mongoose.Schema({
     }],
     workerLogin: { type: String},
     workerLogout: { type: String},
+    duration: { type: Number},
     comment: { type: String}, 
     softDelete: { type: Boolean, default:false, required: true}
 }, { timestamps: true });

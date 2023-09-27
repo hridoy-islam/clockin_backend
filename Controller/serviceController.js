@@ -50,6 +50,12 @@ function currrentTime() {
     const date = new Date();
     return date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2);
 }
+
+function getTimeInMinutes(timeString) {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
 const start = async (req, res) => {
     try {
         
@@ -68,9 +74,17 @@ const start = async (req, res) => {
 const end = async (req, res) => { 
     try {
         const _id = new mongoose.Types.ObjectId(req.params._id);
+        const serivce = await Service.findById({_id});
+
+        // calculate total duration
+        const loginMinutes = getTimeInMinutes(serivce.workerLogin);
+        let logoutMinutes = getTimeInMinutes(currrentTime());
+        if(logoutMinutes < loginMinutes) logoutMinutes = getTimeInMinutes("24:00");
+        const totalWorkTimeMinutes = logoutMinutes - loginMinutes;
+
         const updateService = await Service.findByIdAndUpdate(
             _id,
-            {workerLogout: currrentTime()},
+            {workerLogout: currrentTime(),duration: totalWorkTimeMinutes},
             {new: true}
         )
         return res.status(200).send({ data:updateService})

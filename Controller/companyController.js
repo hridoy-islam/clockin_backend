@@ -7,7 +7,7 @@ const { query } = require('express');
 // Index - Show All Data.
 const index = async (req, res) => {
 
-    const {limit, page, ...restReqQuery} = req.query;
+    const {limit, page, sort_by, ...restReqQuery} = req.query;
 
     try {
         const query = restReqQuery
