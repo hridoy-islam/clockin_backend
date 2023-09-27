@@ -1,12 +1,18 @@
 const { faker } = require('@faker-js/faker');
 const Company = require("../Model/companyModel");
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const findAllByQueryWithPagination = require('../common/function');
+const { query } = require('express');
 
 // Index - Show All Data.
 const index = async (req, res) => {
 
+    const {limit, page, ...restReqQuery} = req.query;
+
     try {
-        return res.status(200).send({data:await Company.find({softDelete:false})});
+        const query = restReqQuery
+        const data = await findAllByQueryWithPagination({query, reqQuery: req.query});
+        return res.status(200).send({data});
     } catch (error) {
         return res.status(400).send({ error: error.message})
     }
