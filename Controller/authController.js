@@ -1,4 +1,5 @@
 const Company = require("../Model/companyModel");
+const Worker = require("../Model/workerModel");
 const jsonwebtoken = require('jsonwebtoken');
 
 // Index - Show All Data.

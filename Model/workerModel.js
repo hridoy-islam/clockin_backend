@@ -8,7 +8,12 @@ const workerSchema = new Schema({
     otp: { type: String, default:null},
     holidays: { type: Number, default:0, required: true},
     verified: { type: Boolean, default:false, required: true},
-    softDelete: { type: Boolean, default:false, required: true}
+    softDelete: { type: Boolean, default:false, required: true},
+    role:{
+        type: String,
+        default: "worker",
+        required: true
+    },
 }, 
 { timestamps: true }
 );
