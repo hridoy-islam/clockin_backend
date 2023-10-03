@@ -1,11 +1,18 @@
 const {faker} = require('@faker-js/faker')
 const Worker = require("../Model/workerModel");
 const mongoose = require('mongoose')
+const {WorkerPagination} = require('../common/function');
 
 // Index - Show All Data.
 const index = async (req, res) => {
+    const {limit, page, sort_by, ...restReqQuery} = req.query;
+
     try {
-        return res.status(200).send({data:await Worker.find({softDelete:false})});
+        const query = restReqQuery
+        const data = await WorkerPagination({query, reqQuery: req.query});
+        return res.status(200).send({data});
+
+        // return res.status(200).send({data:await Worker.find({softDelete:false})});
     } catch (error) {
         return res.status(400).send({ error: error.message})
     }

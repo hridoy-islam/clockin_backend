@@ -1,32 +1,39 @@
 const { faker } = require('@faker-js/faker');
 const Service = require("../Model/serviceModel");
 const mongoose = require('mongoose')
+const { ServicePagination } = require('../common/function');
 
 // Index - Show All Data.
 const index = async (req, res) => {
+    const { limit, page, sort_by, ...restReqQuery } = req.query;
+
     try {
-        return res.status(200).send({data:await Service.find({softDelete:false})});
+        const query = restReqQuery
+        const data = await ServicePagination({ query, reqQuery: req.query });
+        return res.status(200).send({ data });
+
+        // return res.status(200).send({ data: await Service.find({ softDelete: false }) });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // single 
 const single = async (req, res) => {
     try {
-        return res.status(200).send({ data : await Service.findById({_id:req.params._id})});
+        return res.status(200).send({ data: await Service.findById({ _id: req.params._id }) });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // Store New 
-const store = async (req, res) => { 
-    try { 
-        return res.status(200).send({ data:await Service.create(req.body)})
-    } 
-    catch (error) {  
-        return res.status(400).send({ error: error.message}) 
+const store = async (req, res) => {
+    try {
+        return res.status(200).send({ data: await Service.create(req.body) })
+    }
+    catch (error) {
+        return res.status(400).send({ error: error.message })
     }
 }
 
@@ -38,11 +45,11 @@ const update = async (req, res) => {
         const updateService = await Service.findByIdAndUpdate(
             _id,
             req.body,
-            {new: true}
+            { new: true }
         )
-        return res.status(200).send({ data:updateService})
+        return res.status(200).send({ data: updateService })
     } catch (error) {
-        return res.status(400).send({ error: error.message}) 
+        return res.status(400).send({ error: error.message })
     }
 }
 
@@ -54,42 +61,42 @@ function currrentTime() {
 function getTimeInMinutes(timeString) {
     const [hours, minutes] = timeString.split(':').map(Number);
     return hours * 60 + minutes;
-  }
+}
 
 const start = async (req, res) => {
     try {
-        
+
         const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateService = await Service.findByIdAndUpdate(
             _id,
-            {workerLogin: currrentTime() },
-            {new: true}
+            { workerLogin: currrentTime() },
+            { new: true }
         )
-        return res.status(200).send({ data:updateService})
+        return res.status(200).send({ data: updateService })
     } catch (error) {
-        return res.status(400).send({ error: error.message}) 
+        return res.status(400).send({ error: error.message })
     }
 }
 
-const end = async (req, res) => { 
+const end = async (req, res) => {
     try {
         const _id = new mongoose.Types.ObjectId(req.params._id);
-        const serivce = await Service.findById({_id});
+        const serivce = await Service.findById({ _id });
 
         // calculate total duration
         const loginMinutes = getTimeInMinutes(serivce.workerLogin);
         let logoutMinutes = getTimeInMinutes(currrentTime());
-        if(logoutMinutes < loginMinutes) logoutMinutes = getTimeInMinutes("24:00");
+        if (logoutMinutes < loginMinutes) logoutMinutes = getTimeInMinutes("24:00");
         const totalWorkTimeMinutes = logoutMinutes - loginMinutes;
 
         const updateService = await Service.findByIdAndUpdate(
             _id,
-            {workerLogout: currrentTime(),duration: totalWorkTimeMinutes},
-            {new: true}
+            { workerLogout: currrentTime(), duration: totalWorkTimeMinutes },
+            { new: true }
         )
-        return res.status(200).send({ data:updateService})
+        return res.status(200).send({ data: updateService })
     } catch (error) {
-        return res.status(400).send({ error: error.message}) 
+        return res.status(400).send({ error: error.message })
     }
 }
 
@@ -99,25 +106,25 @@ const comment = async (req, res) => {
         const updateService = await Service.findByIdAndUpdate(
             _id,
             req.body,
-            {new: true}
+            { new: true }
         )
-        return res.status(200).send({ data:updateService})
+        return res.status(200).send({ data: updateService })
     } catch (error) {
-        return res.status(400).send({ error: error.message}) 
+        return res.status(400).send({ error: error.message })
     }
 }
 // remove 
-const remove = async (req, res) => { 
+const remove = async (req, res) => {
     try {
         const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateService = await Service.findByIdAndUpdate(
             _id,
-            {softDelete:true},
-            {new: true}
+            { softDelete: true },
+            { new: true }
         )
-        return res.status(200).send({ data:updateService})
+        return res.status(200).send({ data: updateService })
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
@@ -178,4 +185,4 @@ const fakeData = async (req, res) => {
     })
 }
 
-module.exports = { index, single, store, remove, fakeData , update, start, end, comment};
+module.exports = { index, single, store, remove, fakeData, update, start, end, comment };

@@ -1,7 +1,7 @@
 const { faker } = require('@faker-js/faker');
 const Company = require("../Model/companyModel");
 const mongoose = require('mongoose');
-const findAllByQueryWithPagination = require('../common/function');
+const {findAllByQueryWithPagination} = require('../common/function');
 const { query } = require('express');
 
 // Index - Show All Data.
@@ -89,9 +89,13 @@ const remove = async (req, res) => {
  }
 
  const archives = async (req, res) => {
-
+    const {limit, page, sort_by, ...restReqQuery} = req.query;
     try {
-        return res.status(200).send({data:await Company.find({softDelete:true})});
+        const query = restReqQuery
+        const data = await findAllByQueryWithPagination({query, reqQuery: req.query});
+        return res.status(200).send({data});
+
+        // return res.status(200).send({data:await Company.find({softDelete:true})});
     } catch (error) {
         return res.status(400).send({ error: error.message})
     }

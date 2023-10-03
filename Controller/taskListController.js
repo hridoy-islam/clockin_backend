@@ -1,70 +1,78 @@
-const {faker} = require('@faker-js/faker')
+const { faker } = require('@faker-js/faker')
 const TaskList = require("../Model/taskListModel");
 const mongoose = require('mongoose')
+const { TaskListPagination } = require('../common/function');
+
 // Index - Show All Data.
 const index = async (req, res) => {
+    const { limit, page, sort_by, ...restReqQuery } = req.query;
+
     try {
-        return res.status(200).send({data:await TaskList.find({softDelete:false})});
+        const query = restReqQuery
+        const data = await TaskListPagination({ query, reqQuery: req.query });
+        return res.status(200).send({ data });
+
+        // return res.status(200).send({ data: await TaskList.find({ softDelete: false }) });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // single 
 const single = async (req, res) => {
     try {
-        return res.status(200).send({ data : await TaskList.findById({_id:req.params._id})});
+        return res.status(200).send({ data: await TaskList.findById({ _id: req.params._id }) });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // Store New 
-const store = async (req, res) => { 
-    try { 
-        const taskList = await TaskList.findOne({taskName: req.body.taskName});
-        if(taskList) return res.status(409).send({ message:'Task name already exists'});
-        return res.status(200).send({ data:await TaskList.create(req.body)})
-    } 
-    catch (error) {  
-        return res.status(400).send({ error: error.message}) 
+const store = async (req, res) => {
+    try {
+        const taskList = await TaskList.findOne({ taskName: req.body.taskName });
+        if (taskList) return res.status(409).send({ message: 'Task name already exists' });
+        return res.status(200).send({ data: await TaskList.create(req.body) })
+    }
+    catch (error) {
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // update 
-const update = async (req, res) => { 
+const update = async (req, res) => {
     try {
-        const taskList = await TaskList.findById({_id:req.params._id});
+        const taskList = await TaskList.findById({ _id: req.params._id });
 
-        if(taskList._id.toString() !== req.params._id ) return res.status(409).send({ message:'Task list already exists'});
-    
+        if (taskList._id.toString() !== req.params._id) return res.status(409).send({ message: 'Task list already exists' });
+
         const updateTaskList = await TaskList.findByIdAndUpdate(
             taskList._id,
             req.body,
-            {new: true}
+            { new: true }
         )
-        return res.status(200).send({ data:updateTaskList})
+        return res.status(200).send({ data: updateTaskList })
     } catch (error) {
-        return res.status(400).send({ error: error.message}) 
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // remove 
-const remove = async (req, res) => { 
+const remove = async (req, res) => {
     try {
         const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateTaskList = await TaskList.findByIdAndUpdate(
             _id,
-            {softDelete:true},
-            {new: true}
+            { softDelete: true },
+            { new: true }
         )
-        return res.status(200).send({ data:updateTaskList})
+        return res.status(200).send({ data: updateTaskList })
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
-const fakeData = async(req, res)=> {
+const fakeData = async (req, res) => {
 
     let data = [];
 
@@ -90,9 +98,9 @@ const fakeData = async(req, res)=> {
 
 const archives = async (req, res) => {
     try {
-        return res.status(200).send({data:await TaskList.find({softDelete:true})});
+        return res.status(200).send({ data: await TaskList.find({ softDelete: true }) });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
