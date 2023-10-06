@@ -524,16 +524,24 @@
                 "properties": {
                     "email": {
                         "type": "string",
-                        "example": "sample@example.com"
+                        "example": "sample@example.com(for just admin login)"
                     },
                     "phone": {
                         "type": "string",
-                        "example": "123-456-7890"
+                        "example": "01785607826(for just worker login)"
                     },
                     "password": {
                         "type": "string",
                         "required": true,
-                        "example": "password123"
+                        "example": "password123(for admin and worker login)"
+                    },
+                    "otp": {
+                        "type": "string",
+                        "example": "8343(for otp verify)"
+                    },
+                    "otpRequestId": {
+                        "type": "string",
+                        "example": "61f65cf192224e49843366865d656ea5(for otp verify)"
                     }
                 }
             },

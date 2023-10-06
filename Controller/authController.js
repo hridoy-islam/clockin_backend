@@ -3,10 +3,7 @@ const Worker = require("../Model/workerModel");
 const jsonwebtoken = require('jsonwebtoken');
 const { Vonage } = require('@vonage/server-sdk');
 
-const vonage = new Vonage({
-    apiKey: "5d32fcef",
-    apiSecret: "7SolNHoyZmHtJZ2m"
-});
+const vonage = new Vonage({ apiKey: "5d32fcef", apiSecret: "7SolNHoyZmHtJZ2m" })
 
 // Index - Show All Data.
 const index = async (req, res) => {
@@ -32,27 +29,40 @@ const store = async (req, res) => {
     };
 
     try {
+
         if (req.body.email) {
             query.email = req.body.email;
             const company = await Company.findOne(query);
-            if (!company) throw new ApiError('Does not have any company or admin with this credentials');
+            if (!company) throw new Error('Does not have any company or admin with this credentials');
             data.token = jsonwebtoken.sign({ data: company }, 'JWT.secret');
             data.role = company.role;
         } else if (req.body.phone) {
             query.phone = req.body.phone;
+            console.log(query);
+            const sendOTP = await vonage.verify.start({ number: req.body.phone, brand: "Vonage" })
+            await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
 
-            const from = "Vonage APIs"
-            const to = "+8801785607926"
-            const text = 'A text message sent using the Vonage SMS API'
-            const send = await vonage.sms.send({ to, from, text })
+            if (sendOTP.status === '0') {
+                const worker = await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
+                if (!worker) throw new Error('Does not have any worker with this credentials');
+                data.role = worker.role;
+                data.message = 'Please verify by otp'
+            } else data.message = 'Otp sending failed'
 
+        } else if (req.body.request_id && req.body.otp) {
+            delete query.password;
+            query.otpRequestId = req.body.request_id;
             const worker = await Worker.findOne(query);
-            if (!worker) throw new ApiError('Does not have any worker with this credentials');
-            data.token = jsonwebtoken.sign({ data: worker }, 'JWT.secret');
-            data.role = worker.role;
+            if (!worker) throw new Error('Does not have any worker with this credentials');
+            const verify = await vonage.verify.check(req.body.request_id, req.body.otp)
+            if (verify.status === '0') {
+                data.token = jsonwebtoken.sign({ data: worker }, 'JWT.secret');
+                data.role = worker.role;
+            } else data.message = 'Otp verification failed'
         }
-        if (data.token) data.sucess = true
-        else throw new ApiError('Credentials mismatch')
+        if (data.message) data.success = false
+        else if (data.token) data.success = true
+        else throw new Error('Credentials mismatch')
         return res.status(200).send({ data })
     } catch (error) {
         return res.status(400).send({ error: error.message })
@@ -61,7 +71,15 @@ const store = async (req, res) => {
 }
 
 // update 
-const update = async (req, res) => { }
+const update = async (req, res) => {
+    try {
+        const verify = await vonage.verify.check('d086e130bcbe4ae6b7b86d926ff7bf39', 7324)
+        if (verify.status === '0') return res.status(200).send({ verified: true })
+        else return res.status(200).send({ verified: false })
+    } catch (error) {
+        return res.status(400).send({ error: error.message })
+    }
+}
 // remove 
 const remove = async (req, res) => { }
 
