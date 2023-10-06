@@ -34,14 +34,14 @@ const store = async (req, res) => {
             query.email = req.body.email;
             const company = await Company.findOne(query);
             if (!company) throw new Error('Does not have any company or admin with this credentials');
-            data.token = jsonwebtoken.sign({ data: company }, 'JWT.secret');
+            data.token = jsonwebtoken.sign({ data: company }, process.env.API_SECRET);
             data.role = company.role;
         } else if (req.body.phone) {
             query.phone = req.body.phone;
-            console.log(query);
-            const sendOTP = await vonage.verify.start({ number: req.body.phone, brand: "Vonage" })
+            const sendOTP = await vonage.verify.start({ number: `+88${req.body.phone}`, brand: "Vonage" })
             await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
 
+            console.log(sendOTP);
             if (sendOTP.status === '0') {
                 const worker = await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
                 if (!worker) throw new Error('Does not have any worker with this credentials');
@@ -49,14 +49,14 @@ const store = async (req, res) => {
                 data.message = 'Please verify by otp'
             } else data.message = 'Otp sending failed'
 
-        } else if (req.body.request_id && req.body.otp) {
+        } else if (req.body.otpRequestId && req.body.otp) {
             delete query.password;
-            query.otpRequestId = req.body.request_id;
+            query.otpRequestId = req.body.otpRequestId;
             const worker = await Worker.findOne(query);
             if (!worker) throw new Error('Does not have any worker with this credentials');
-            const verify = await vonage.verify.check(req.body.request_id, req.body.otp)
+            const verify = await vonage.verify.check(req.body.otpRequestId, req.body.otp)
             if (verify.status === '0') {
-                data.token = jsonwebtoken.sign({ data: worker }, 'JWT.secret');
+                data.token = jsonwebtoken.sign({ data: worker }, process.env.API_SECRET);
                 data.role = worker.role;
             } else data.message = 'Otp verification failed'
         }

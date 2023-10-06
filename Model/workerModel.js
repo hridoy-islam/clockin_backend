@@ -10,6 +10,11 @@ const workerSchema = new Schema({
     verified: { type: Boolean, default: false, required: true },
     otpRequestId: { type: String },
     softDelete: { type: Boolean, default: false, required: true },
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
     role: {
         type: String,
         default: "worker",

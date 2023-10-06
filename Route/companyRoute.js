@@ -1,15 +1,15 @@
 const express = require('express');
 const { index, single, store, update, remove, archives, fakeData } = require('../Controller/companyController');
 const router = express.Router()
-const {companyValidator, companyUpdateValidator} = require('../validation/companyValidation')
+const { companyValidator, companyUpdateValidator } = require('../validation/companyValidation')
+const { isAuthenticated } = require('../Config/helper');
 
 // Service User
-router.get('/', index);
-router.get('/archives', archives);
-router.get('/:_id', single);
-router.post('/',companyValidator, store);
-router.put('/:_id',companyValidator, update);
-router.delete('/:_id', remove);
+router.get('/', isAuthenticated, index);
+router.get('/:_id', isAuthenticated, single);
+router.post('/', companyValidator, isAuthenticated, store);
+router.put('/:_id', companyValidator, isAuthenticated, update);
+router.delete('/:_id', isAuthenticated, remove);
 
 router.get('/fake/data', fakeData);
 

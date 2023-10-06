@@ -46,6 +46,11 @@
                 "tags": [
                     "Companies"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a company",
                 "requestBody": {
                     "content": {
@@ -62,16 +67,26 @@
                 "tags": [
                     "Companies"
                 ],
-                "description": "Get companies",
-                "responses": {}
-            }
-        },
-        "/company/archives": {
-            "get": {
-                "tags": [
-                    "Companies"
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
-                "description": "Get archive list of companies",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "verified",
+                        "description": "Make false for archive list",
+                        "schema": {
+                            "type": "boolean",
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    }
+                ],
+                "description": "Get companies",
                 "responses": {}
             }
         },
@@ -80,6 +95,11 @@
                 "description": "Company details",
                 "tags": [
                     "Companies"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "parameters": [
@@ -93,6 +113,11 @@
             "put": {
                 "tags": [
                     "Companies"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "requestBody": {
@@ -117,6 +142,11 @@
                 "tags": [
                     "Companies"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "responses": {},
                 "parameters": [
                     {
@@ -131,6 +161,11 @@
             "post": {
                 "tags": [
                     "Customers"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "description": "Create a Customers",
                 "requestBody": {
@@ -148,16 +183,26 @@
                 "tags": [
                     "Customers"
                 ],
-                "description": "Get Customers",
-                "responses": {}
-            }
-        },
-        "/customer/archives": {
-            "get": {
-                "tags": [
-                    "Customers"
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
-                "description": "Get archive list of Customers",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "verified",
+                        "description": "Make false for archive list",
+                        "schema": {
+                            "type": "boolean",
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    }
+                ],
+                "description": "Get Customers",
                 "responses": {}
             }
         },
@@ -166,6 +211,11 @@
                 "description": "Customer details",
                 "tags": [
                     "Customers"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "parameters": [
@@ -179,6 +229,11 @@
             "put": {
                 "tags": [
                     "Customers"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "requestBody": {
@@ -203,6 +258,11 @@
                 "tags": [
                     "Customers"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "responses": {},
                 "parameters": [
                     {
@@ -217,6 +277,11 @@
             "post": {
                 "tags": [
                     "TaskList"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "description": "Create a TaskList",
                 "requestBody": {
@@ -234,16 +299,26 @@
                 "tags": [
                     "TaskList"
                 ],
-                "description": "Get TaskList",
-                "responses": {}
-            }
-        },
-        "/tasklist/archives": {
-            "get": {
-                "tags": [
-                    "TaskList"
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
-                "description": "Get archive of tasklist",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "verified",
+                        "description": "Make false for archive list",
+                        "schema": {
+                            "type": "boolean",
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    }
+                ],
+                "description": "Get TaskList",
                 "responses": {}
             }
         },
@@ -252,6 +327,11 @@
                 "description": "Tasklist details",
                 "tags": [
                     "TaskList"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "parameters": [
@@ -265,6 +345,11 @@
             "put": {
                 "tags": [
                     "TaskList"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "requestBody": {
@@ -289,6 +374,11 @@
                 "tags": [
                     "TaskList"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "responses": {},
                 "parameters": [
                     {
@@ -303,6 +393,11 @@
             "post": {
                 "tags": [
                     "Workers"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "description": "Create a Worker",
                 "requestBody": {
@@ -320,16 +415,34 @@
                 "tags": [
                     "Workers"
                 ],
-                "description": "Get Worker",
-                "responses": {}
-            }
-        },
-        "/worker/archives": {
-            "get": {
-                "tags": [
-                    "Workers"
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
-                "description": "Get archive of Worker",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "company",
+                        "description": "This is description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "verified",
+                        "description": "Make false for archive list",
+                        "schema": {
+                            "type": "boolean",
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    }
+                ],
+                "description": "Get Worker",
                 "responses": {}
             }
         },
@@ -338,6 +451,11 @@
                 "description": "Worker details",
                 "tags": [
                     "Workers"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "parameters": [
@@ -351,6 +469,11 @@
             "put": {
                 "tags": [
                     "Workers"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "requestBody": {
@@ -375,6 +498,11 @@
                 "tags": [
                     "Workers"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "responses": {},
                 "parameters": [
                     {
@@ -389,6 +517,11 @@
             "post": {
                 "tags": [
                     "Services"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "description": "Create a Service schedule",
                 "requestBody": {
@@ -406,6 +539,25 @@
                 "tags": [
                     "Services"
                 ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "verified",
+                        "description": "Make false for archive list",
+                        "schema": {
+                            "type": "boolean",
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get Service list",
                 "responses": {}
             }
@@ -415,6 +567,11 @@
                 "description": "Service details",
                 "tags": [
                     "Services"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "parameters": [
@@ -428,6 +585,11 @@
             "put": {
                 "tags": [
                     "Services"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "requestBody": {
@@ -452,6 +614,11 @@
                 "tags": [
                     "Services"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "responses": {},
                 "parameters": [
                     {
@@ -466,6 +633,11 @@
             "patch": {
                 "tags": [
                     "Services"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "responses": {},
                 "parameters": [
@@ -482,6 +654,11 @@
                 "tags": [
                     "Services"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "responses": {},
                 "parameters": [
                     {
@@ -496,6 +673,11 @@
             "patch": {
                 "tags": [
                     "Services"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -533,7 +715,7 @@
                     "password": {
                         "type": "string",
                         "required": true,
-                        "example": "password123(for admin and worker login)"
+                        "example": "mySecurePassword(for admin and worker login)"
                     },
                     "otp": {
                         "type": "string",
@@ -561,12 +743,12 @@
                     "password": {
                         "type": "string",
                         "required": true,
-                        "example": "password123"
+                        "example": "mySecurePassword"
                     },
                     "phone": {
                         "type": "string",
                         "required": true,
-                        "example": "123-456-7890"
+                        "example": "01785607926"
                     },
                     "address": {
                         "type": "string",
@@ -578,7 +760,7 @@
                     },
                     "contactPhone": {
                         "type": "string",
-                        "example": "123-456-7890"
+                        "example": "01785607926"
                     }
                 }
             },

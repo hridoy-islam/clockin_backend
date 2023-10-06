@@ -1,41 +1,42 @@
-const {faker} = require('@faker-js/faker')
+const { faker } = require('@faker-js/faker')
 const Worker = require("../Model/workerModel");
 const mongoose = require('mongoose')
-const {WorkerPagination} = require('../common/function');
+const { WorkerPagination } = require('../common/function');
 
 // Index - Show All Data.
 const index = async (req, res) => {
-    const {limit, page, sort_by, ...restReqQuery} = req.query;
+    const { limit, page, sort_by, ...restReqQuery } = req.query;
 
     try {
         const query = restReqQuery
-        const data = await WorkerPagination({query, reqQuery: req.query});
-        return res.status(200).send({data});
+        const data = await WorkerPagination({ query, reqQuery: req.query });
+        return res.status(200).send({ data });
 
         // return res.status(200).send({data:await Worker.find({softDelete:false})});
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // single 
 const single = async (req, res) => {
     try {
-        return res.status(200).send({ data : await Worker.findById({_id:req.params._id})});
+        return res.status(200).send({ data: await Worker.findById({ _id: req.params._id }) });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // Store New 
-const store = async (req, res) => { 
-    try { 
+const store = async (req, res) => {
+    try {
+        req.body.company = req.auth._id;
         const worker = await Worker.findOne({ phone: req.body.phone });
-        if(worker) return res.status(409).send({ message:'Team mate already exists'})
-        return res.status(200).send({ data:await Worker.create(req.body)})
-    } 
-    catch (error) {  
-        return res.status(400).send({ error: error.message}) 
+        if (worker) return res.status(409).send({ message: 'Team mate already exists' })
+        return res.status(200).send({ data: await Worker.create(req.body) })
+    }
+    catch (error) {
+        return res.status(400).send({ error: error.message })
     }
 }
 
@@ -44,43 +45,43 @@ const update = async (req, res) => {
     try {
         const worker = await Worker.findOne({ phone: req.body.phone });
 
-        if(worker._id.toString() !== req.params._id ) return res.status(409).send({ message:'Team mate already exists'});
-    
+        if (worker._id.toString() !== req.params._id) return res.status(409).send({ message: 'Team mate already exists' });
+
         const updateWorker = await Worker.findByIdAndUpdate(
             worker._id,
             req.body,
-            {new: true}
+            { new: true }
         )
-        return res.status(200).send({ data:updateWorker})
+        return res.status(200).send({ data: updateWorker })
     } catch (error) {
-        return res.status(400).send({ error: error.message}) 
+        return res.status(400).send({ error: error.message })
     }
- }
+}
 // remove 
 const remove = async (req, res) => {
     try {
         const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateWorker = await Worker.findByIdAndUpdate(
             _id,
-            {softDelete:true},
-            {new: true}
+            { softDelete: true },
+            { new: true }
         )
-        return res.status(200).send({ data:updateWorker})
+        return res.status(200).send({ data: updateWorker })
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
- }
+}
 
 const archives = async (req, res) => {
-try {
-    return res.status(200).send({data:await Worker.find({softDelete:true})});
-} catch (error) {
-    return res.status(400).send({ error: error.message})
-}
+    try {
+        return res.status(200).send({ data: await Worker.find({ softDelete: true }) });
+    } catch (error) {
+        return res.status(400).send({ error: error.message })
+    }
 }
 
 
-const fakeData = async(req, res)=> {
+const fakeData = async (req, res) => {
 
     let data = [];
 
