@@ -8,7 +8,7 @@ const { isAuthenticated } = require('../Config/helper');
 router.get('/', isAuthenticated, index);
 router.get('/:_id', isAuthenticated, single);
 router.post('/', createServiceValidator, isAuthenticated, store);
-router.put('/:_id', createServiceValidator, isAuthenticated, update);
+router.patch('/:_id', createServiceValidator, isAuthenticated, update);
 router.patch('/start/:_id', isAuthenticated, start);
 router.patch('/end/:_id', isAuthenticated, end);
 router.patch('/comment/:_id', commentValidator, isAuthenticated, comment);

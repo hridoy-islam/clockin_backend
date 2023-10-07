@@ -8,7 +8,7 @@ const { isAuthenticated } = require('../Config/helper');
 router.get('/', isAuthenticated, index);
 router.get('/:_id', isAuthenticated, single);
 router.post('/', customerValidator, isAuthenticated, store);
-router.put('/:_id', customerUpdateValidator, isAuthenticated, update);
+router.patch('/:_id', isAuthenticated, update);
 router.delete('/:_id', isAuthenticated, remove);
 router.get('/fake/data', fakeData)
 

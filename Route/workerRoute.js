@@ -9,7 +9,7 @@ router.get('/', isAuthenticated, index);
 router.get('/archives', isAuthenticated, archives);
 router.get('/:_id', isAuthenticated, single);
 router.post('/', createWorkerValidator, isAuthenticated, store);
-router.put('/:_id', createWorkerValidator, isAuthenticated, update);
+router.patch('/:_id', isAuthenticated, update);
 router.delete('/:_id', isAuthenticated, remove);
 
 router.get('/fake/data', fakeData);

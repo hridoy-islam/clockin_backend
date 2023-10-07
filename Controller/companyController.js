@@ -1,47 +1,48 @@
 const { faker } = require('@faker-js/faker');
 const Company = require("../Model/companyModel");
 const mongoose = require('mongoose');
-const {findAllByQueryWithPagination} = require('../common/function');
+const { findAllByQueryWithPagination } = require('../common/function');
 const { query } = require('express');
 
 // Index - Show All Data.
 const index = async (req, res) => {
 
-    const {limit, page, sort_by, ...restReqQuery} = req.query;
+    const { limit, page, sort_by, ...restReqQuery } = req.query;
 
     try {
         const query = restReqQuery
-        const data = await findAllByQueryWithPagination({query, reqQuery: req.query});
-        return res.status(200).send({data});
+        console.log(query);
+        const data = await findAllByQueryWithPagination({ query, reqQuery: req.query });
+        return res.status(200).send({ data });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // single 
 const single = async (req, res) => {
     try {
-        return res.status(200).send({ data : await Company.findById({_id:req.params._id})});
+        return res.status(200).send({ data: await Company.findById({ _id: req.params._id }) });
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 
 // Store New 
 const store = async (req, res) => {
-    try { 
-        const company = await Company.findOne({ 
+    try {
+        const company = await Company.findOne({
             $or: [
-            { email:req.body.email }, 
-            { phone: req.body.phone }
-        ] 
-    });
+                { email: req.body.email },
+                { phone: req.body.phone }
+            ]
+        });
 
-        if(company) return res.status(409).send({ message:'Company already exists'})
-        return res.status(200).send({ data:await Company.create(req.body)})
-    } 
-    catch (error) {  
-        return res.status(400).send({ error: error.message}) 
+        if (company) return res.status(409).send({ message: 'Company already exists' })
+        return res.status(200).send({ data: await Company.create(req.body) })
+    }
+    catch (error) {
+        return res.status(400).send({ error: error.message })
     }
 }
 
@@ -49,26 +50,28 @@ const store = async (req, res) => {
 const update = async (req, res) => {
 
     try {
-        const company = await Company.findOne(
-            {
-                $or: [
-                    { email:req.body.email }, 
-                    { phone: req.body.phone }
-                ]
-            },
-            {softDelete:false}
-        );
+        // const company = await Company.findOne(
+        //     {
+        //         $or: [
+        //             { email: req.body.email },
+        //             { phone: req.body.phone }
+        //         ]
+        //     },
+        //     { softDelete: false }
+        // );
 
-        if(company?._id.toString() !== req.params?._id ) return res.status(409).send({ message:'Company already exists'});
-    
+        // if (company?._id.toString() !== req.params?._id) return res.status(409).send({ message: 'Company already exists' });
+
+        const _id = new mongoose.Types.ObjectId(req.params._id);
+
         const updateCompany = await Company.findByIdAndUpdate(
-            company?._id,
+            _id,
             req.body,
-            {new: true}
+            { new: true }
         )
-        return res.status(200).send({ data:updateCompany})
+        return res.status(200).send({ data: updateCompany })
     } catch (error) {
-        return res.status(400).send({ error: error.message}) 
+        return res.status(400).send({ error: error.message })
     }
 
 };
@@ -79,25 +82,25 @@ const remove = async (req, res) => {
         const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateCompany = await Company.findByIdAndUpdate(
             _id,
-            {softDelete:true},
-            {new: true}
+            { softDelete: true },
+            { new: true }
         )
-        return res.status(200).send({ data:updateCompany})
+        return res.status(200).send({ data: updateCompany })
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
- }
+}
 
- const archives = async (req, res) => {
-    const {limit, page, sort_by, ...restReqQuery} = req.query;
+const archives = async (req, res) => {
+    const { limit, page, sort_by, ...restReqQuery } = req.query;
     try {
         const query = restReqQuery
-        const data = await findAllByQueryWithPagination({query, reqQuery: req.query});
-        return res.status(200).send({data});
+        const data = await findAllByQueryWithPagination({ query, reqQuery: req.query });
+        return res.status(200).send({ data });
 
         // return res.status(200).send({data:await Company.find({softDelete:true})});
     } catch (error) {
-        return res.status(400).send({ error: error.message})
+        return res.status(400).send({ error: error.message })
     }
 }
 

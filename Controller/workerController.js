@@ -43,12 +43,13 @@ const store = async (req, res) => {
 // update 
 const update = async (req, res) => {
     try {
-        const worker = await Worker.findOne({ phone: req.body.phone });
+        // const worker = await Worker.findOne({ phone: req.body.phone });
 
-        if (worker._id.toString() !== req.params._id) return res.status(409).send({ message: 'Team mate already exists' });
+        // if (worker._id.toString() !== req.params._id) return res.status(409).send({ message: 'Team mate already exists' });
 
+        const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateWorker = await Worker.findByIdAndUpdate(
-            worker._id,
+            _id,
             req.body,
             { new: true }
         )

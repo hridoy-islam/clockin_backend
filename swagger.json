@@ -75,13 +75,25 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "verified",
+                        "name": "softDelete",
                         "description": "Make false for archive list",
                         "schema": {
                             "type": "boolean",
                             "enum": [
                                 true,
                                 false
+                            ]
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "role",
+                        "description": "role wise filter",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "company",
+                                "admin"
                             ]
                         }
                     }
@@ -110,7 +122,7 @@
                     }
                 ]
             },
-            "put": {
+            "patch": {
                 "tags": [
                     "Companies"
                 ],
@@ -191,7 +203,7 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "verified",
+                        "name": "softDelete",
                         "description": "Make false for archive list",
                         "schema": {
                             "type": "boolean",
@@ -199,6 +211,15 @@
                                 true,
                                 false
                             ]
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "company",
+                        "description": "Make false for archive list",
+                        "schema": {
+                            "type": "string",
+                            "example": "608cb0f4a9d36f001f7dbd33"
                         }
                     }
                 ],
@@ -226,7 +247,7 @@
                     }
                 ]
             },
-            "put": {
+            "patch": {
                 "tags": [
                     "Customers"
                 ],
@@ -307,7 +328,7 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "verified",
+                        "name": "softDelete",
                         "description": "Make false for archive list",
                         "schema": {
                             "type": "boolean",
@@ -315,6 +336,15 @@
                                 true,
                                 false
                             ]
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "company",
+                        "description": "Make false for archive list",
+                        "schema": {
+                            "type": "string",
+                            "example": "608cb0f4a9d36f001f7dbd33"
                         }
                     }
                 ],
@@ -342,7 +372,7 @@
                     }
                 ]
             },
-            "put": {
+            "patch": {
                 "tags": [
                     "TaskList"
                 ],
@@ -431,7 +461,7 @@
                     },
                     {
                         "in": "query",
-                        "name": "verified",
+                        "name": "softDelete",
                         "description": "Make false for archive list",
                         "schema": {
                             "type": "boolean",
@@ -466,7 +496,7 @@
                     }
                 ]
             },
-            "put": {
+            "patch": {
                 "tags": [
                     "Workers"
                 ],
@@ -542,7 +572,7 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "verified",
+                        "name": "softDelete",
                         "description": "Make false for archive list",
                         "schema": {
                             "type": "boolean",
@@ -582,7 +612,7 @@
                     }
                 ]
             },
-            "put": {
+            "patch": {
                 "tags": [
                     "Services"
                 ],
@@ -891,6 +921,12 @@
                     "holidays": {
                         "type": "number",
                         "example": 10
+                    },
+                    "company": {
+                        "type": "string",
+                        "required": true,
+                        "example": "608cb0f4a9d36f001f7dbd33",
+                        "pattern": "^[0-9a-fA-F]{24}$"
                     }
                 }
             },
