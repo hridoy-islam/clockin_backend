@@ -750,10 +750,6 @@
                     "otp": {
                         "type": "string",
                         "example": "8343(for otp verify)"
-                    },
-                    "otpRequestId": {
-                        "type": "string",
-                        "example": "61f65cf192224e49843366865d656ea5(for otp verify)"
                     }
                 }
             },
