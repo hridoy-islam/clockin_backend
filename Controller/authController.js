@@ -36,19 +36,26 @@ const store = async (req, res) => {
             if (!company) throw new Error('Does not have any company or admin with this credentials');
             data.token = jsonwebtoken.sign({ data: company }, process.env.API_SECRET);
             data.role = company.role;
-        } else if (req.body.phone & !req.body.otp) {
+        } else if (req.body.phone && !req.body.otp) {
+            console.log('hello');
             query.phone = req.body.phone;
-            const sendOTP = await vonage.verify.start({ number: `+88${req.body.phone}`, brand: "Vonage" })
-            await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
+            const worker = await Worker.findOne(query);
+            if (!worker.verified) {
 
-            console.log(sendOTP);
-            if (sendOTP.status === '0') {
-                const worker = await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
-                if (!worker) throw new Error('Does not have any worker with this credentials');
+                const sendOTP = await vonage.verify.start({ number: `+88${req.body.phone}`, brand: "Vonage" })
+                await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
+
+                if (sendOTP.status === '0') {
+                    const worker = await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
+                    if (!worker) throw new Error('Does not have any worker with this credentials');
+                    data.role = worker.role;
+                    data.message = 'Please verify by otp'
+                } else data.message = 'Otp sending failed'
+
+            } else {
+                data.token = jsonwebtoken.sign({ data: worker }, process.env.API_SECRET);
                 data.role = worker.role;
-                data.message = 'Please verify by otp'
-            } else data.message = 'Otp sending failed'
-
+            }
         } else if (req.body.phone && req.body.otp) {
             delete query.password;
             query.phone = req.body.phone;

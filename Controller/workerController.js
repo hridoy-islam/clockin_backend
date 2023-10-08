@@ -30,7 +30,7 @@ const single = async (req, res) => {
 // Store New 
 const store = async (req, res) => {
     try {
-        req.body.company = req.auth._id;
+        // req.body.company = req.auth._id;
         const worker = await Worker.findOne({ phone: req.body.phone });
         if (worker) return res.status(409).send({ message: 'Team mate already exists' })
         return res.status(200).send({ data: await Worker.create(req.body) })
