@@ -21,7 +21,7 @@ const index = async (req, res) => {
 // single 
 const single = async (req, res) => {
     try {
-        return res.status(200).send({ data: await Service.findById({ _id: req.params._id }) });
+        return res.status(200).send({ data: await Service.findById({ _id: req.params._id }).populate('customer') });
     } catch (error) {
         return res.status(400).send({ error: error.message })
     }
@@ -128,6 +128,22 @@ const remove = async (req, res) => {
     }
 }
 
+const statusUpdate = async (req, res) => {
+    try {
+        const updateTaskList = await Service.updateOne(
+            { _id: req.params._id, "taskList._id": req.params.task_id },
+            { $set: { "taskList.$.status": req.body.status } }
+        )
+        if(updateTaskList){
+            const updatedService = await Service.findOne({ _id: req.params._id });
+            return res.status(200).send({ data: updatedService })
+        }else throw Error('Task update failed')
+
+    } catch (error) {
+        return res.status(400).send({ error: error.message })
+    }
+}
+
 const fakeData = async (req, res) => {
 
     let data = [];
@@ -185,4 +201,4 @@ const fakeData = async (req, res) => {
     })
 }
 
-module.exports = { index, single, store, remove, fakeData, update, start, end, comment };
+module.exports = { index, single, store, remove, fakeData, update, start, end, comment, statusUpdate };

@@ -419,6 +419,40 @@
                 ]
             }
         },
+        "/service/{_id}/{task_id}":{
+            "patch": {
+                "tags": [
+                    "Services"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {},
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTaskList"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "task_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
         "/worker": {
             "post": {
                 "tags": [

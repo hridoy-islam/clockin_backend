@@ -11,7 +11,6 @@ const index = async (req, res) => {
 
     try {
         const query = restReqQuery
-        console.log(query);
         const data = await findAllByQueryWithPagination({ query, reqQuery: req.query });
         return res.status(200).send({ data });
     } catch (error) {
@@ -50,20 +49,7 @@ const store = async (req, res) => {
 const update = async (req, res) => {
 
     try {
-        // const company = await Company.findOne(
-        //     {
-        //         $or: [
-        //             { email: req.body.email },
-        //             { phone: req.body.phone }
-        //         ]
-        //     },
-        //     { softDelete: false }
-        // );
-
-        // if (company?._id.toString() !== req.params?._id) return res.status(409).send({ message: 'Company already exists' });
-
         const _id = new mongoose.Types.ObjectId(req.params._id);
-
         const updateCompany = await Company.findByIdAndUpdate(
             _id,
             req.body,
@@ -97,8 +83,6 @@ const archives = async (req, res) => {
         const query = restReqQuery
         const data = await findAllByQueryWithPagination({ query, reqQuery: req.query });
         return res.status(200).send({ data });
-
-        // return res.status(200).send({data:await Company.find({softDelete:true})});
     } catch (error) {
         return res.status(400).send({ error: error.message })
     }

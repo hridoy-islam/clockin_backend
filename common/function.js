@@ -19,7 +19,7 @@ const findAllByQueryWithPagination = async ({
     if (page && Number(page) > 1) pageNumber = Number(page);
     if (limit && Number(limit) > 0) pageSize = Number(limit);
 
-    const resData = await Company.find(query, options).select(select).skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
+    const resData = await Company.find(query, options).select('-password').skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
     const total_count = await Company.find(query).count();
 
     return {
@@ -67,7 +67,7 @@ const WorkerPagination = async ({
     if (page && Number(page) > 1) pageNumber = Number(page);
     if (limit && Number(limit) > 0) pageSize = Number(limit);
 
-    const resData = await Worker.find(query, options).select(select).skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
+    const resData = await Worker.find(query, options).select('-password').skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
     const total_count = await Worker.find(query).count();
 
     return {
@@ -115,7 +115,7 @@ const ServicePagination = async ({
     if (page && Number(page) > 1) pageNumber = Number(page);
     if (limit && Number(limit) > 0) pageSize = Number(limit);
 
-    const resData = await Service.find(query, options).select(select).skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
+    const resData = await Service.find(query, options).populate('customer').select(select).skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
     const total_count = await Service.find(query).count();
 
     return {
