@@ -20,6 +20,7 @@ const workerSchema = new Schema({
         default: "worker",
         required: true
     },
+    imagePath: {type: String}
 },
     { timestamps: true }
 );

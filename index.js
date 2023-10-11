@@ -16,21 +16,19 @@ const customerRoute = require('./Route/customerRoute')
 const workerRoute = require('./Route/workerRoute')
 
 // middleware
-app.use(cors(
-
-));
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+connectDB()
 
 app.use('/auth', authRoute);
-
 app.use('/company', companyRoute);
 app.use('/customer', customerRoute);
 app.use('/worker', workerRoute);
 app.use('/tasklist', taskListRoute);
 app.use('/service', serviceRoute);
-connectDB()
-
+app.use('/profile', express.static('upload/images'));
 
 app.get('/', (req, res) => {
     res.send('Hello Clock IN APP!')

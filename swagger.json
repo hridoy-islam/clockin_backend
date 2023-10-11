@@ -577,6 +577,41 @@
                 ]
             }
         },
+        "/worker/image/{_id}": {
+            "patch": {
+                "tags": [
+                    "Workers"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {},
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties":{
+                                    "profile":{
+                                        "type":"string",
+                                        "format":"binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "_id",
+                        "required": true
+                    }
+                ]
+            }
+        },
         "/service": {
             "post": {
                 "tags": [

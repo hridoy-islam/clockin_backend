@@ -40,13 +40,36 @@ const store = async (req, res) => {
     }
 }
 
+const uploadFile = async (req, res) => {
+
+    try {
+        if (!req.file) {
+            console.log("No file received");
+            return res.send({
+              success: false
+            });
+        
+          } else {
+            const _id = new mongoose.Types.ObjectId(req.params._id);
+            // const imageUrl = req.protocol + '://' + req.get('host')
+
+            const updateWorker = await Worker.findByIdAndUpdate(
+                _id,
+                {imagePath:`profile/${req.file.filename}` },
+                { new: true }
+            )
+
+            return res.status(200).send({ data: updateWorker })
+          }
+
+    } catch (error) {
+        return res.status(400).send({ error: error.message })
+    }
+}
+
 // update 
 const update = async (req, res) => {
     try {
-        // const worker = await Worker.findOne({ phone: req.body.phone });
-
-        // if (worker._id.toString() !== req.params._id) return res.status(409).send({ message: 'Team mate already exists' });
-
         const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateWorker = await Worker.findByIdAndUpdate(
             _id,
@@ -112,4 +135,4 @@ const fakeData = async (req, res) => {
     })
 }
 
-module.exports = { index, single, store, update, remove, fakeData, archives };
+module.exports = { index, single, store, update, remove, fakeData, archives , uploadFile};

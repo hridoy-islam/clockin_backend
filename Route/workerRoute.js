@@ -1,16 +1,19 @@
 const express = require('express');
-const { index, single, store, update, remove, fakeData, archives } = require('../Controller/workerController');
+const { index, single, store, update, remove, fakeData, archives , uploadFile} = require('../Controller/workerController');
 const router = express.Router()
 const { createWorkerValidator } = require('../validation/workerValidation')
 const { isAuthenticated } = require('../Config/helper');
 
+const upload = require('../common/fileUploadMiddleware');
+
 // Service User
-router.get('/', isAuthenticated, index);
-router.get('/archives', isAuthenticated, archives);
-router.get('/:_id', isAuthenticated, single);
-router.post('/', createWorkerValidator, isAuthenticated, store);
-router.patch('/:_id', isAuthenticated, update);
-router.delete('/:_id', isAuthenticated, remove);
+router.get('/',  index);
+router.get('/archives',  archives);
+router.get('/:_id',  single);
+router.post('/',createWorkerValidator,  store);
+router.patch('/image/:_id', upload.single('profile'), uploadFile);
+router.patch('/:_id',  update);
+router.delete('/:_id',  remove);
 
 router.get('/fake/data', fakeData);
 
