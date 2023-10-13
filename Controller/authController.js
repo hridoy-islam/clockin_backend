@@ -49,12 +49,14 @@ const store = async (req, res) => {
                     const worker = await Worker.findOneAndUpdate(query, { otpRequestId: sendOTP.request_id }, { new: true });
                     if (!worker) throw new Error('Does not have any worker with this credentials');
                     data.role = worker.role;
+                    data.user = worker;
                     data.message = 'Please verify by otp'
                 } else data.message = 'Otp sending failed'
 
             } else {
                 data.token = jsonwebtoken.sign({ data: worker }, process.env.API_SECRET);
                 data.role = worker.role;
+                data.user = worker;
             }
         } else if (req.body.phone && req.body.otp) {
             delete query.password;
@@ -65,6 +67,7 @@ const store = async (req, res) => {
             if (verify.status === '0') {
                 data.token = jsonwebtoken.sign({ data: worker }, process.env.API_SECRET);
                 data.role = worker.role;
+                data.user = worker;
             } else data.message = 'Otp verification failed'
         }
         if (data.message) data.success = false
