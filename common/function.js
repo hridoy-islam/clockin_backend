@@ -116,7 +116,7 @@ const ServicePagination = async ({
     if (page && Number(page) > 1) pageNumber = Number(page);
     if (limit && Number(limit) > 0) pageSize = Number(limit);
 
-    const resData = await Service.find(query, options).populate('customer').select(select).skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
+    const resData = await Service.find(query, options).populate('customer').populate('worker').select(select).skip((pageNumber - 1) * pageSize).limit(pageSize).sort(sortBy);
     const total_count = await Service.find(query).count();
 
     return {
