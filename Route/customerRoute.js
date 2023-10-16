@@ -1,5 +1,5 @@
 const express = require('express');
-const { index, single, store, update, remove, archives, fakeData } = require('../Controller/customerController');
+const { index, single, store, update, remove, archives } = require('../Controller/customerController');
 const router = express.Router()
 const { customerValidator, customerUpdateValidator } = require('../validation/customerValidation');
 const { isAuthenticated } = require('../Config/helper');
@@ -10,6 +10,5 @@ router.get('/:_id', isAuthenticated, single);
 router.post('/', customerValidator, isAuthenticated, store);
 router.patch('/:_id', isAuthenticated, update);
 router.delete('/:_id', isAuthenticated, remove);
-router.get('/fake/data', fakeData)
 
 module.exports = router

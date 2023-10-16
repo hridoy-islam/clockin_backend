@@ -14,6 +14,7 @@ const taskListRoute = require('./Route/taskListRoute')
 const serviceRoute = require('./Route/serviceRoute')
 const customerRoute = require('./Route/customerRoute')
 const workerRoute = require('./Route/workerRoute')
+const payDayRoute = require('./Route/payDayRoute')
 
 // middleware
 app.use(cors());
@@ -29,6 +30,7 @@ app.use('/worker', workerRoute);
 app.use('/tasklist', taskListRoute);
 app.use('/service', serviceRoute);
 app.use('/profile', express.static('upload/images'));
+app.use('/payday', payDayRoute);
 
 app.get('/', (req, res) => {
     res.send('Hello Clock IN APP!')

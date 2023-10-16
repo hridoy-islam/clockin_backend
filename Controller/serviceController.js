@@ -134,71 +134,14 @@ const statusUpdate = async (req, res) => {
             { _id: req.params._id, "taskList._id": req.params.task_id },
             { $set: { "taskList.$.status": req.body.status } }
         )
-        if(updateTaskList){
+        if (updateTaskList) {
             const updatedService = await Service.findOne({ _id: req.params._id });
             return res.status(200).send({ data: updatedService })
-        }else throw Error('Task update failed')
+        } else throw Error('Task update failed')
 
     } catch (error) {
         return res.status(400).send({ error: error.message })
     }
 }
 
-const fakeData = async (req, res) => {
-
-    let data = [];
-
-    for (let index = 0; index < 10; index++) {
-        const serviceDate = faker.date.future();
-        const serviceTimeStart = faker.date.future();
-        const serviceTimeEnd = faker.date.future();
-        const status = 'pendiing';
-        const customer = faker.string.uuid();
-        const company = faker.string.uuid();
-        const workerLogin = faker.date.future();
-        const workerLogout = faker.date.future();
-        const comment = faker.lorem.text();
-
-        const taskList = [];
-
-        for (let index = 0; index < 5; index++) {
-            const taskName = faker.person.fullName();
-            const status = 'pending';
-            const company = faker.string.uuid();
-
-            const taskListData = {
-                taskName,
-                status,
-                company,
-            }
-
-            taskList.push(taskListData)
-        }
-
-
-
-
-        const generatedData = {
-            serviceDate,
-            serviceTimeStart,
-            serviceTimeEnd,
-            status,
-            customer,
-            company,
-            workerLogin,
-            workerLogout,
-            comment,
-            taskList,
-
-        }
-
-        data.push(generatedData)
-
-    }
-
-    res.json({
-        data,
-    })
-}
-
-module.exports = { index, single, store, remove, fakeData, update, start, end, comment, statusUpdate };
+module.exports = { index, single, store, remove, update, start, end, comment, statusUpdate };

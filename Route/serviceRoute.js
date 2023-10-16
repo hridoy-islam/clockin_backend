@@ -1,5 +1,5 @@
 const express = require('express');
-const { index, single, store, remove, fakeData, update, start, end, comment, statusUpdate } = require('../Controller/serviceController');
+const { index, single, store, remove, update, start, end, comment, statusUpdate } = require('../Controller/serviceController');
 const router = express.Router()
 const { createServiceValidator, commentValidator } = require('../validation/serviceValidation')
 const { isAuthenticated } = require('../Config/helper');
@@ -14,7 +14,5 @@ router.patch('/end/:_id', isAuthenticated, end);
 router.patch('/comment/:_id', commentValidator, isAuthenticated, comment);
 router.delete('/:_id', isAuthenticated, remove);
 router.patch('/:_id/:task_id', isAuthenticated, statusUpdate);
-
-router.get('/fake/data', fakeData)
 
 module.exports = router

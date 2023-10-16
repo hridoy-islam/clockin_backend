@@ -1,14 +1,11 @@
 const express = require('express');
-const { index, single, store, update, remove, archives } = require('../Controller/companyController');
+const { index, single, store, update } = require('../Controller/payDayController');
 const router = express.Router()
-const { companyValidator } = require('../validation/companyValidation')
 const { isAuthenticated } = require('../Config/helper');
-
 // Service User
 router.get('/', isAuthenticated, index);
 router.get('/:_id', isAuthenticated, single);
-router.post('/', companyValidator, isAuthenticated, store);
+router.post('/', isAuthenticated, store);
 router.patch('/:_id', isAuthenticated, update);
-router.delete('/:_id', isAuthenticated, remove);
 
 module.exports = router

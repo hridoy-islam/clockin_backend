@@ -1,4 +1,3 @@
-const { faker } = require('@faker-js/faker')
 const Customer = require("../Model/customerModel");
 const mongoose = require('mongoose')
 const { CustomerPagination } = require('../common/function');
@@ -76,33 +75,7 @@ const archives = async (req, res) => {
     }
 }
 
-const fakeData = async (req, res) => {
-
-    let data = [];
-
-    for (let index = 0; index < 10; index++) {
-        const name = faker.person.fullName();
-        const location = faker.location.streetAddress({ useFullAddress: true });
-        const latitude = faker.location.latitude();
-        const longitude = faker.location.longitude();
-        const company = faker.string.uuid();
-
-        const generatedData = {
-            name,
-            location,
-            latitude,
-            latitude,
-            company,
-        }
-
-        data.push(generatedData)
-
-    }
-
-    res.json({
-        data,
-    })
-}
 
 
-module.exports = { index, single, store, update, remove, fakeData, archives };
+
+module.exports = { index, single, store, update, remove, archives };
