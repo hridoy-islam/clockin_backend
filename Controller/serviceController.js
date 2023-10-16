@@ -21,7 +21,7 @@ const index = async (req, res) => {
 // single 
 const single = async (req, res) => {
     try {
-        return res.status(200).send({ data: await Service.findById({ _id: req.params._id }).populate('customer') });
+        return res.status(200).send({ data: await Service.findById({ _id: req.params._id }).populate('customer').populate('worker') });
     } catch (error) {
         return res.status(400).send({ error: error.message })
     }
