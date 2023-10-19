@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const serviceSchema = mongoose.Schema({
     serviceName: { type: String, required: true},
-    serviceDate: { type: String, required: true},// format: mm/dd/yyyy
+    serviceDate: { type: Date, required: true},
     serviceTimeStart:{ type: String, required: true},
     serviceTimeEnd: { type: String, required: true},
     status: { type: String, required: true},

@@ -650,6 +650,24 @@
                                 false
                             ]
                         }
+                    },
+                    {
+                        "in": "query",
+                        "name": "serviceDate",
+                        "description": "start service date",
+                        "schema": {
+                            "type": "date",
+                            "example":"2023-09-24"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "serviceDateEnd",
+                        "description": "start service date",
+                        "schema": {
+                            "type": "date",
+                            "example":"2023-09-24"
+                        }
                     }
                 ],
                 "security": [
@@ -1004,9 +1022,9 @@
                         "required": true
                     },
                     "serviceDate": {
-                        "type": "string",
-                        "example": "12/31/2022",
-                        "format": "mm/dd/yyyy",
+                        "type": "date",
+                        "example": "2023-09-24",
+                        "format": "yyyy-mm-dd",
                         "required": true
                     },
                     "serviceTimeStart": {

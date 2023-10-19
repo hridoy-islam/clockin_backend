@@ -3,7 +3,7 @@ const validationHandler = require('../common/validate');
 
 const createServiceSchemaValidation = Joi.object({
     serviceName: Joi.string().required(),
-    serviceDate: Joi.string().pattern(/^\d{2}\/\d{2}\/\d{4}$/).required(), // Format: mm/dd/yyyy
+    serviceDate: Joi.date().required(), // Format: mm/dd/yyyy
     serviceTimeStart: Joi.string().required(), 
     serviceTimeEnd: Joi.string().required(), 
     status: Joi.string().required(),
