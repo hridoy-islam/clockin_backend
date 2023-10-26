@@ -26,8 +26,8 @@ const serviceSchema = mongoose.Schema({
         taskName: { type: String, required: true},
         status: { type: String, required: true},
     }],
-    workerLogin: { type: String},
-    workerLogout: { type: String},
+    workerLogin: { type: Date},
+    workerLogout: { type: Date},
     duration: { type: Number},
     comment: { type: String}, 
     softDelete: { type: Boolean, default:false, required: true}

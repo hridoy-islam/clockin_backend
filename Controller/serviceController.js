@@ -69,7 +69,7 @@ const start = async (req, res) => {
         const _id = new mongoose.Types.ObjectId(req.params._id);
         const updateService = await Service.findByIdAndUpdate(
             _id,
-            { workerLogin: currrentTime() },
+            { workerLogin: Date.now() },
             { new: true }
         )
         return res.status(200).send({ data: updateService })
@@ -84,14 +84,14 @@ const end = async (req, res) => {
         const serivce = await Service.findById({ _id });
 
         // calculate total duration
-        const loginMinutes = getTimeInMinutes(serivce.workerLogin);
-        let logoutMinutes = getTimeInMinutes(currrentTime());
-        if (logoutMinutes < loginMinutes) logoutMinutes = getTimeInMinutes("24:00");
-        const totalWorkTimeMinutes = logoutMinutes - loginMinutes;
-
+        // const loginMinutes = getTimeInMinutes(serivce.workerLogin);
+        // let logoutMinutes = getTimeInMinutes(currrentTime());
+        // if (logoutMinutes < loginMinutes) logoutMinutes = getTimeInMinutes("24:00");
+        // const totalWorkTimeMinutes = logoutMinutes - loginMinutes;
+        const logOutTime = Date.now();
         const updateService = await Service.findByIdAndUpdate(
             _id,
-            { workerLogout: currrentTime(), duration: totalWorkTimeMinutes },
+            { workerLogout: logOutTime, duration: logOutTime - (serivce.workerLogin) },
             { new: true }
         )
         return res.status(200).send({ data: updateService })
